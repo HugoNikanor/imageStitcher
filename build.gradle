@@ -1,0 +1,12 @@
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'eclipse'
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+mainClassName = "org.hugonikanor.imageStitcher.main.Main"
+
+repositories {
+	mavenCentral()
+}
