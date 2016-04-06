@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
 
@@ -23,14 +25,18 @@ public class FileSystemAccess {
 	}
 
 	/**
-	 * TODO this should take a filter
+	 * @param regex
+	 * 	A regex which all files in the dir must match
 	 */
-	public BufferedImage[] getImages() {
+	public BufferedImage[] getImages( String regex ) {
+
+		Pattern p = Pattern.compile( regex );
 
 		File[] unfilteredFiles = dir.listFiles();
 		List<File> filteredFiles = new ArrayList<>();
 		for( File f : unfilteredFiles ) {
-			if( !f.isDirectory() ) {
+			Matcher m = p.matcher( f.toString() );
+			if( !f.isDirectory() && m.matches() ) {
 				filteredFiles.add( f );
 			}
 		}

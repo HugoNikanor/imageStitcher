@@ -57,7 +57,13 @@ public class Main {
 
 		FileSystemAccess fsa = new FileSystemAccess( new File(dir) );
 
-		ImageStitcher is = new ImageStitcher( fsa.getImages() );
+		BufferedImage[] images = fsa.getImages(regex);
+		if( images.length == 0 ) {
+			System.out.println( "No images in directory matches" );
+			System.exit( 0 );
+		}
+
+		ImageStitcher is = new ImageStitcher(images);
 
 		BufferedImage stitchedImage = is.getStitchedImage();
 
