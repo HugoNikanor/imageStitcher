@@ -2,8 +2,11 @@ package org.hugonikanor.imageStitcher.fileReader;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 public class FileSystemAccess {
 
@@ -36,6 +39,11 @@ public class FileSystemAccess {
 			new FileReader( filteredFiles.toArray(new File[filteredFiles.size()]) ).readImages();
 
 		return images.toArray(new BufferedImage[images.size()]);
+	}
+
+	public void writeImage( BufferedImage image, String filename ) 
+		throws IOException {
+		ImageIO.write( image, "png", new File(filename.concat(".png")) );
 	}
 
 	/**
