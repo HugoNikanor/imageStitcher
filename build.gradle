@@ -7,6 +7,14 @@ targetCompatibility = '1.8'
 
 mainClassName = "org.hugonikanor.imageStitcher.main.Main"
 
+run {
+	// allows for java args to be added with with
+	// -PmyArgs="['arg0']"
+	if( project.hasProperty("myArgs") ) {
+		args Eval.me(myArgs);
+	}
+}
+
 repositories {
 	mavenCentral()
 }
