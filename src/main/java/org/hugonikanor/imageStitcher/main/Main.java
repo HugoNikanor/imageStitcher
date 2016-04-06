@@ -3,6 +3,7 @@ package org.hugonikanor.imageStitcher.main;
 import java.awt.BorderLayout;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -35,7 +36,12 @@ public class Main {
 		frame.pack();
 		frame.setVisible(true);
 
-		//fsa.writeImage( stitchedImage, "outputImage" );
+		try {
+			fsa.writeImage(stitchedImage, "outputImage");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 }
