@@ -22,7 +22,7 @@ public class FileSystemAccess {
 	/**
 	 * TODO this should take a filter
 	 */
-	public List<BufferedImage> getImages() {
+	public BufferedImage[] getImages() {
 
 		File[] unfilteredFiles = dir.listFiles();
 		List<File> filteredFiles = new ArrayList<>();
@@ -33,9 +33,9 @@ public class FileSystemAccess {
 		}
 
 		List<BufferedImage> images =
-			new FileReader( (File[]) filteredFiles.toArray() ).readImages();
+			new FileReader( filteredFiles.toArray(new File[filteredFiles.size()]) ).readImages();
 
-		return images;
+		return images.toArray(new BufferedImage[images.size()]);
 	}
 
 	/**
