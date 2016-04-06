@@ -18,25 +18,14 @@ import org.hugonikanor.imageStitcher.imageCreator.ImageStitcher;
 public class Main {
 
 	/**
-	 * intended usage:
-	 * 0: input dir
-	 * 1: input regex
-	 * 2: output
-	 *
-	 * -d dir
-	 * -r regex
-	 * -o outputfilename
-	 * -p (preview)
-	 * -h --help
-	 *
-	 * programname -d ./dir -r 'regex' -o outputfilename -p
+	 * see resources/helpMessage.txt, or run the program with the '-h' flag,
+	 * to see avalible args
 	 */
 	public static void main( String[] args ) throws IOException {
 		
 		if( args.length <= 0 || args[0].contains("-h") ) {
-			//System.out.println( "This is the help message, but I haven't written it yet" ); 
-			for( String str :
-					Files.readAllLines(Paths.get("src/main/resources/helpMessage.txt"))) {
+			for( String str : Files.readAllLines(
+						Paths.get("src/main/resources/helpMessage.txt"))) {
 				System.out.println( str );
 			}
 			System.exit(0);
@@ -80,12 +69,7 @@ public class Main {
 			frame.setVisible(true);
 		}
 
-		try {
-			fsa.writeImage(stitchedImage, outputFile);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		fsa.writeImage(stitchedImage, outputFile);
 
 	}
 }
