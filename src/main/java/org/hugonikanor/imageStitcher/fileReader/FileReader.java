@@ -10,10 +10,18 @@ import javax.imageio.ImageIO;
 
 public class FileReader {
 
-	public List<BufferedImage> images;
+	private File[] files;
 
 	public FileReader( File[] files ) {
-		images = new ArrayList<>();
+		this.files = files;
+	}
+
+	/**
+	 * @return the images
+	 */
+	public List<BufferedImage> readImages() {
+
+		List<BufferedImage> images = new ArrayList<>();
 
 		for( File path : files ) {
 			if( !path.isFile() ) {
@@ -28,12 +36,7 @@ public class FileReader {
 				e.printStackTrace();
 			}
 		}
-	}
-
-	/**
-	 * @return the images
-	 */
-	public List<BufferedImage> getImages() {
 		return images;
+
 	}
 }
