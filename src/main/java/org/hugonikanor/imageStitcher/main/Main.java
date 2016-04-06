@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -14,30 +16,72 @@ import org.hugonikanor.imageStitcher.fileReader.FileSystemAccess;
 import org.hugonikanor.imageStitcher.imageCreator.ImageStitcher;
 
 public class Main {
-	public static void main( String[] args ) {
+
+	/**
+	 * intended usage:
+	 * 0: input dir
+	 * 1: input regex
+	 * 2: output
+	 *
+	 * -d dir
+	 * -r regex
+	 * -o outputfilename
+	 * -p (preview)
+	 * -h --help
+	 *
+	 * programname -d ./dir -r 'regex' -o outputfilename -p
+	 */
+	public static void main( String[] args ) throws IOException {
 		
-		if( args.length <= 0 ) {
-			System.out.println( "Please enter a directory path" );
-			System.exit( 0 );
+		if( args.length <= 0 || args[0].contains("-h") ) {
+			//System.out.println( "This is the help message, but I haven't written it yet" ); 
+			for( String str :
+					Files.readAllLines(Paths.get("src/main/resources/helpMessage.txt"))) {
+				System.out.println( str );
+			}
+			System.exit(0);
 		}
 
-		FileSystemAccess fsa = new FileSystemAccess( new File(args[0]) );
+		String dir = ".";
+		String regex = ".*";
+		String outputFile = "outputFile";
+		boolean showPreview = false;
+
+		for( int i = 0; i < args.length; i++ ) {
+			switch( args[i] ) {
+			case "-d":
+				dir = args[++i];
+				break;
+			case "-r":
+				regex = args[++i];
+				break;
+			case "-o":
+				outputFile = args[++i];
+				break;
+			case "-p":
+				showPreview = true;
+				break;
+			default:
+				break;
+			}
+		}
+
+		FileSystemAccess fsa = new FileSystemAccess( new File(dir) );
 
 		ImageStitcher is = new ImageStitcher( fsa.getImages() );
 
 		BufferedImage stitchedImage = is.getStitchedImage();
 
-		JFrame frame = new JFrame();
-		//frame.getContentPane().setLayout(new FlowLayout());
-		frame.getContentPane().add(new JScrollPane(new JLabel(new ImageIcon(stitchedImage))), BorderLayout.CENTER);
-
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		frame.pack();
-		frame.setVisible(true);
+		if( showPreview ) {
+			JFrame frame = new JFrame();
+			frame.getContentPane().add(new JScrollPane(new JLabel(new ImageIcon(stitchedImage))), BorderLayout.CENTER);
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame.pack();
+			frame.setVisible(true);
+		}
 
 		try {
-			fsa.writeImage(stitchedImage, "outputImage");
+			fsa.writeImage(stitchedImage, outputFile);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

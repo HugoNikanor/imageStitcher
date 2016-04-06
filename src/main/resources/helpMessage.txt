@@ -1,0 +1,13 @@
+ImageStitcher, version 0
+Author Hugo Hornquist
+
+This software is released under the MIT-license, in accordance with the licence
+file distributed with the download 
+
+Usage:
+	imageStitcher 
+	[-h][--help]   Show this help message
+	[-d directory] Which directory the files should be read from
+	[-r regex]     A regex which all the files will match (not yet implemented)
+	[-o output]    Name of the output file 
+	[-p]           If you want a preview before saving the file
