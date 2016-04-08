@@ -57,6 +57,7 @@ public class Main {
 
 		FileSystemAccess fsa = new FileSystemAccess( new File(dir) );
 
+		// this throws IOException
 		BufferedImage[] images = fsa.getImages(regex);
 		if( images.length == 0 ) {
 			System.out.println( "No images in directory matches" );
