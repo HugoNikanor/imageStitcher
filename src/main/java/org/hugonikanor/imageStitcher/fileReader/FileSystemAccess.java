@@ -47,7 +47,10 @@ public class FileSystemAccess {
 
 	public void writeImage( BufferedImage image, String filename ) 
 		throws IOException {
-		File outputFile = new File( filename.concat(".png") ); 
+		if( !filename.substring(filename.length() - 4).equals(".png") ) {
+			filename += ".png";
+		}
+		File outputFile = new File( filename ); 
 		ImageIO.write( image, "png", outputFile );
 		System.out.printf( "%s:\t[%s]%n", "File written to disk", outputFile );
 	}
