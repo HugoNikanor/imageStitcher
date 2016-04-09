@@ -17,16 +17,12 @@ public class ImageStitcher {
 
 		int[] factors = GreatestFactors.Get( noImages );
 
-
 		stitchedImage = new BufferedImage(
 				factors[1] * imgWidth,
 				factors[0] * imgHeight,
 				BufferedImage.TYPE_INT_ARGB );
 
 		Graphics2D canvas = (Graphics2D) stitchedImage.getGraphics();
-
-		//System.out.println( factors[0] );
-		//System.out.println( factors[1] );
 
 		int count = 0;
 		for( int y = 0; y < factors[0]; y++ ) {

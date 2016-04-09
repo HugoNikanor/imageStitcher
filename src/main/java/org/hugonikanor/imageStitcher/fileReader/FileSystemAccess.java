@@ -15,13 +15,7 @@ public class FileSystemAccess {
 	private File dir;
 
 	public FileSystemAccess( File dir ) {
-
 		this.dir = dir;
-
-		// This may be null
-		// it also isn't sorted in any way
-		dir.listFiles();
-
 	}
 
 	/**
@@ -29,7 +23,6 @@ public class FileSystemAccess {
 	 * 	A regex which all files in the dir must match
 	 */
 	public BufferedImage[] getImages( String regex ) {
-
 		Pattern p = Pattern.compile( regex );
 
 		File[] unfilteredFiles = dir.listFiles();

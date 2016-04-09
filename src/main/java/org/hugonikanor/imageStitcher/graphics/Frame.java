@@ -51,7 +51,6 @@ public class Frame extends JFrame {
 
 		this.getContentPane().add( confirmPane, BorderLayout.SOUTH );
 
-
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.pack();
 		this.setVisible(true);
