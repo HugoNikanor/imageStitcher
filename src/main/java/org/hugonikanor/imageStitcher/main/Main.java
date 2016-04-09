@@ -6,6 +6,12 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -28,8 +34,22 @@ public class Main {
 		String outputFile = "outputFile";
 		boolean showPreview = false;
 
-		for( int i = 0; i < args.length; i++ ) {
-			switch( args[i] ) {
+		List<String> filteredArgs = new ArrayList<>();
+		Pattern p = Pattern.compile("--.*");
+
+		for( String str : args ) {
+			Matcher m = p.matcher( str );
+			if( m.matches() ) {
+				System.out.println( str );
+				filteredArgs.addAll( Arrays.asList(str.split("=", 2)) );
+			} else {
+				filteredArgs.add( str );
+			}
+		}
+		Iterator<String> it = filteredArgs.iterator();
+
+		while( it.hasNext() ) {
+			switch( it.next() ) {
 			case "-h":
 			case "--help":
 				for( String str : Files.readAllLines(
@@ -39,21 +59,27 @@ public class Main {
 				System.exit(0);
 				break;
 			case "-d":
-				dir = args[++i];
+			case "--dir":
+				dir = it.next();
 				break;
 			case "-r":
-				regex = args[++i];
+			case "--regex":
+				regex = it.next();
 				break;
 			case "-o":
-				outputFile = args[++i];
+			case "--output":
+				outputFile = it.next();
 				break;
 			case "-p":
+			case "--preview":
 				showPreview = true;
 				break;
 			default:
 				break;
 			}
 		}
+
+		//System.out.printf("d[%s]%nr[%s]%no[%s]%n",dir,regex,outputFile);
 
 		FileSystemAccess fsa = new FileSystemAccess( new File(dir) );
 
