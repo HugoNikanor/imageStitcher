@@ -28,17 +28,16 @@ public class FileSystemAccess {
 	 * @param regex
 	 * 	A regex which all files in the dir must match
 	 */
-	public BufferedImage[] getImages( String regex ) throws IOException {
+	public BufferedImage[] getImages( String regex ) {
 
 		Pattern p = Pattern.compile( regex );
 
 		File[] unfilteredFiles = dir.listFiles();
-		if( unfilteredFiles == null ) {
-			throw new IOException("No files in directory");
-		}
+
+		// TODO possibly have check if regex is "match all" (.*)
 		List<File> filteredFiles = new ArrayList<>();
 		for( File f : unfilteredFiles ) {
-			Matcher m = p.matcher( f.toString() );
+			Matcher m = p.matcher( f.getName() );
 			if( !f.isDirectory() && m.matches() ) {
 				filteredFiles.add( f );
 			}

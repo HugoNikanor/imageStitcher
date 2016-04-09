@@ -22,22 +22,22 @@ public class Main {
 	 * to see avalible args
 	 */
 	public static void main( String[] args ) throws IOException {
-		
-		if( args.length <= 0 || args[0].contains("-h") ) {
-			for( String str : Files.readAllLines(
-						Paths.get("src/main/resources/helpMessage.txt"))) {
-				System.out.println( str );
-			}
-			System.exit(0);
-		}
 
-		String dir = ".";
+		String dir = "./";
 		String regex = ".*";
 		String outputFile = "outputFile";
 		boolean showPreview = false;
 
 		for( int i = 0; i < args.length; i++ ) {
 			switch( args[i] ) {
+			case "-h":
+			case "--help":
+				for( String str : Files.readAllLines(
+							Paths.get("src/main/resources/helpMessage.txt"))) {
+					System.out.println( str );
+				}
+				System.exit(0);
+				break;
 			case "-d":
 				dir = args[++i];
 				break;
@@ -57,10 +57,11 @@ public class Main {
 
 		FileSystemAccess fsa = new FileSystemAccess( new File(dir) );
 
-		// this throws IOException
 		BufferedImage[] images = fsa.getImages(regex);
 		if( images.length == 0 ) {
-			System.out.println( "No images in directory matches" );
+			System.out.printf( 
+					"No images in '%s' which match the regex '%s' found.%n",
+					dir, regex );
 			System.exit( 0 );
 		}
 

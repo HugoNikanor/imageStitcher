@@ -25,18 +25,23 @@ public class FileReader {
 
 		for( File path : files ) {
 			if( !path.isFile() ) {
-				System.err.printf( "%s is not a file%n", path );
 				continue;
 			}
 
 			try {
-				images.add( ImageIO.read(path) );
-				System.out.printf( "%s loaded%n", path );
+				BufferedImage img = ImageIO.read(path);
+				if( img == null ) {
+					System.out.printf( "Not an image: [%s]%n", path );
+					continue;
+				} else {
+					images.add( img );
+					System.out.printf( "Loaded: [%s]%n", path );
+				}
 			} catch( IOException e ) {
 				e.printStackTrace();
 			}
 		}
 		return images;
-
 	}
 }
+
