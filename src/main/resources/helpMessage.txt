@@ -1,0 +1,20 @@
+ImageStitcher, version 0, Hugo Hornquist
+
+This software is released under the MIT-license, in accordance with the licence
+file distributed with the download.
+
+Usage:
+    -h
+        Show this help message
+    -d <directory>
+        Which directory the files should be read from
+    -r <regex>
+        A regex which all the files will match
+    -o <output>
+        Name of the output file
+    -p
+        If you want a preview before saving the file
+        This opens a graphical window
+
+Note that the input files will not be naturally sorted.
+This means that '10' will become before '2'.
