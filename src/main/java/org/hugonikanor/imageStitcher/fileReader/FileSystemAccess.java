@@ -51,8 +51,15 @@ public class FileSystemAccess {
 			filename += ".png";
 		}
 		File outputFile = new File( filename ); 
-		ImageIO.write( image, "png", outputFile );
-		System.out.printf( "%s:\t[%s]%n", "File written to disk", outputFile );
+
+		String message;
+
+		if( ImageIO.write( image, "png", outputFile ) ) {
+			message = "File written to disk";
+		} else {
+			message = "Java ImageIO.write failed when writing to disk";
+		}
+		System.out.printf( "%n%s:\t[%s]%n", message, outputFile );
 	}
 
 	/**
