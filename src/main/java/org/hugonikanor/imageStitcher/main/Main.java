@@ -1,16 +1,11 @@
 package org.hugonikanor.imageStitcher.main;
 
-import java.awt.BorderLayout;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-
 import org.hugonikanor.imageStitcher.fileReader.FileSystemAccess;
+import org.hugonikanor.imageStitcher.graphics.Frame;
 import org.hugonikanor.imageStitcher.imageCreator.ImageStitcher;
 
 public class Main {
@@ -36,13 +31,16 @@ public class Main {
 		BufferedImage stitchedImage = is.getStitchedImage();
 
 		if( ih.isShowPreview() ) {
-			JFrame frame = new JFrame();
-			frame.getContentPane().add(new JScrollPane(new JLabel(new ImageIcon(stitchedImage))), BorderLayout.CENTER);
-			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			frame.pack();
-			frame.setVisible(true);
+			new Frame( stitchedImage, (e) -> {
+				try {
+					fsa.writeImage(stitchedImage, ih.getOutputFile());
+				} catch( IOException err ) {
+					err.printStackTrace();
+				}
+				System.exit(0);
+			});
+		} else {
+			fsa.writeImage(stitchedImage, ih.getOutputFile());
 		}
-
-		fsa.writeImage( stitchedImage, ih.getOutputFile() );
 	}
 }
