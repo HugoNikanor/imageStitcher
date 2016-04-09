@@ -31,11 +31,11 @@ public class FileReader {
 			try {
 				BufferedImage img = ImageIO.read(path);
 				if( img == null ) {
-					System.out.printf( "Not an image: [%s]%n", path );
+					System.out.printf( "%s:\t[%s]%n", "Not an image", path );
 					continue;
 				} else {
 					images.add( img );
-					System.out.printf( "Loaded: [%s]%n", path );
+					System.out.printf( "%s:\t[%s]%n", "Image loaded", path );
 				}
 			} catch( IOException e ) {
 				e.printStackTrace();
