@@ -43,6 +43,9 @@ public class FileSystemAccess {
 			}
 		}
 
+		// Note that this is not the desired order for numbers
+		filteredFiles.sort( null );
+
 		List<BufferedImage> images =
 			new FileReader( filteredFiles.toArray(new File[filteredFiles.size()]) ).readImages();
 
