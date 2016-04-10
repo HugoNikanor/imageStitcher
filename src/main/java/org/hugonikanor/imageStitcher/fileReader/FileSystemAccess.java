@@ -22,10 +22,13 @@ public class FileSystemAccess {
 	 * @param regex
 	 * 	A regex which all files in the dir must match
 	 */
-	public BufferedImage[] getImages( String regex ) {
+	public BufferedImage[] getImages( String regex ) throws IOException {
 		Pattern p = Pattern.compile( regex );
 
 		File[] unfilteredFiles = dir.listFiles();
+		if( unfilteredFiles == null ) {
+			return new BufferedImage[0];
+		}
 
 		// TODO possibly have check if regex is "match all" (.*)
 		List<File> filteredFiles = new ArrayList<>();

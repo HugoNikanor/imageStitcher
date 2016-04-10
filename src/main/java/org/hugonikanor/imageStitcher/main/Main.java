@@ -22,8 +22,9 @@ public class Main {
 		BufferedImage[] images = fsa.getImages(ih.getRegex());
 		if( images.length == 0 ) {
 			System.out.printf( 
-					"No images in '%s' which match the regex '%s' found.%n",
-					ih.getDir(), ih.getRegex() );
+					"Either no images in matching '%s' was found in '%s'%n"+
+					"Or '%s' is not a valid directory%n",
+					ih.getRegex(), ih.getDir(), ih.getDir() );
 			System.exit( 0 );
 		}
 
