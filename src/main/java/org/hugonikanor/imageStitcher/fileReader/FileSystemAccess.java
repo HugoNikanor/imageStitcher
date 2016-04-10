@@ -45,7 +45,18 @@ public class FileSystemAccess {
 		return images.toArray(new BufferedImage[images.size()]);
 	}
 
-	public void writeImage( BufferedImage image, String filename ) 
+	/**
+	 * Note that this also writes a message to stdout depending on if the
+	 * writing is succsessfull
+	 *
+	 * @param image
+	 *     The image which should be written
+	 * @param filename
+	 *     what the file should be named, 'png' at end optional
+	 * @return
+	 *     if the file writing was successfull
+	 */
+	public boolean writeImage( BufferedImage image, String filename ) 
 		throws IOException {
 		if( !filename.substring(filename.length() - 4).equals(".png") ) {
 			filename += ".png";
@@ -54,12 +65,15 @@ public class FileSystemAccess {
 
 		String message;
 
-		if( ImageIO.write( image, "png", outputFile ) ) {
+		boolean writeSuccess = ImageIO.write( image, "png", outputFile );
+		if( writeSuccess ) {
 			message = "File written to disk";
 		} else {
 			message = "Java ImageIO.write failed when writing to disk";
 		}
 		System.out.printf( "%n%s:\t[%s]%n", message, outputFile );
+
+		return writeSuccess;
 	}
 
 	/**
