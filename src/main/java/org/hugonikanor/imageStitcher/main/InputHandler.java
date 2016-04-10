@@ -24,29 +24,33 @@ public class InputHandler {
 		showPreview = false;
 
 		List<String> filteredArgs = new ArrayList<>();
-		Pattern p = Pattern.compile("--.*");
+		Pattern longP = Pattern.compile("^--.*");
+		Pattern shortP = Pattern.compile("^-(.*)");
 
-		for( String str : args ) {
-			Matcher m = p.matcher( str );
-			if( m.matches() ) {
-				System.out.println( str );
-				filteredArgs.addAll( Arrays.asList(str.split("=", 2)) );
+		for( String arg : args ) {
+
+			Matcher longM = longP.matcher( arg );
+			Matcher shortM = shortP.matcher( arg );
+
+			if( longM.matches() ) {
+				System.out.println( arg );
+				filteredArgs.addAll( Arrays.asList(arg.split("=", 2)) );
+			} else if( shortM.matches() ) {
+				String[] flags = shortM.group(1).split("");
+				for( String str : flags ) {
+					filteredArgs.add( new String("-").concat(str) );
+				}
 			} else {
-				filteredArgs.add( str );
+				filteredArgs.add( arg );
 			}
+
 		}
+
 		Iterator<String> it = filteredArgs.iterator();
 
 		while( it.hasNext() ) {
-			switch( it.next() ) {
-			case "-h":
-			case "--help":
-				for( String str : Files.readAllLines(
-							Paths.get("src/main/resources/helpMessage.txt"))) {
-					System.out.println( str );
-				}
-				System.exit(0);
-				break;
+			String val = it.next();
+			switch( val ) {
 			case "-d":
 			case "--dir":
 				dir = it.next();
@@ -63,9 +67,28 @@ public class InputHandler {
 			case "--preview":
 				showPreview = true;
 				break;
+			case "-h":
+			case "--help":
+				this.printHelp();
+				System.exit(0);
+				break;
 			default:
+				this.printHelp();
+				System.err.printf( "%nInvalid flag '%s'%n", val );
+				System.exit(1);
 				break;
 			}
+		}
+	}
+
+	private void printHelp() {
+		try {
+			for( String str : Files.readAllLines(
+						Paths.get("src/main/resources/helpMessage.txt"))) {
+				System.out.println( str );
+			}
+		} catch( IOException e ) {
+			System.err.println("Coludn't acces help, tough luck");
 		}
 	}
 
